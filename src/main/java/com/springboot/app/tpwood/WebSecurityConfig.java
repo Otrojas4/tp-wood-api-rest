@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import com.springboot.app.tpwood.security.JWTAuthorizationFilter;
 
@@ -18,11 +19,15 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable()
+		http
+			.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+			.and()
+			.csrf().disable()
 			.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests()
 			.antMatchers(HttpMethod.POST, "/user/login").permitAll()
 			.antMatchers(HttpMethod.POST, "/user/create").permitAll()
 			.anyRequest().authenticated();
 	}
+	
 }
