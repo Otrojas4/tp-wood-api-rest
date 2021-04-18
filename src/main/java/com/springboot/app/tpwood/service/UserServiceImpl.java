@@ -86,5 +86,10 @@ public class UserServiceImpl implements IUserService {
 
 		return "Bearer " + token;
 	}
+
+	@Override
+	public List<User> listUsers() {
+		return this.userRepo.findAll();
+	}
 	
 }
