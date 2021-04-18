@@ -10,8 +10,17 @@ public class MapCreateDto {
 	public String codPlate;
 	public double elaborationTime;
 	public String woodType;
+	public String imageBase;
 	public int idPri;
 	public int idSec;
+
+	public String getImageBase() {
+		return imageBase;
+	}
+
+	public void setImageBase(String imageBase) {
+		this.imageBase = imageBase;
+	}
 
 	public MapCreateDto() {
 	}

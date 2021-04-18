@@ -6,6 +6,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.springboot.app.tpwood.client.models.ImageToCreate;
+import com.springboot.app.tpwood.client.models.ImageToResponse;
 import com.springboot.app.tpwood.dtos.MapCreateDto;
 import com.springboot.app.tpwood.entity.MadProduct;
 import com.springboot.app.tpwood.entity.PrimaryTrans;
@@ -13,12 +15,16 @@ import com.springboot.app.tpwood.entity.SecondaryTrans;
 import com.springboot.app.tpwood.repository.IMadProductRepository;
 import com.springboot.app.tpwood.repository.IPrimaryTransRepository;
 import com.springboot.app.tpwood.repository.ISecondaryTransRepository;
+import com.springboot.app.tpwood.serviceFeign.IIImageService;
 
 @Service
 public class MadProductServiceImpl implements IMadProductService {
 
 	@Autowired
 	private IMadProductRepository madProductRepo;
+	
+	@Autowired
+	private IIImageService imageService;
 	
 	@Autowired
 	private IPrimaryTransRepository primaryTransRepo;
@@ -33,6 +39,8 @@ public class MadProductServiceImpl implements IMadProductService {
 	public MadProduct insert(MapCreateDto madProductDto) {
 		 //por si cree que idSec y idPri son el id de ellos.
 		 modelMapper.getConfiguration().setAmbiguityIgnored(true);
+		 
+		 String imageBase = madProductDto.getImageBase();
 
 		 MadProduct madProductToCreate = this.modelMapper.map(madProductDto, MadProduct.class);
 		 
@@ -47,9 +55,25 @@ public class MadProductServiceImpl implements IMadProductService {
 		 madProductToCreate.setPrimaryTrans(primaryTransFinded);
 		 
 		 madProductToCreate.setSecondaryTrans(secondaryTransFinded);
+		 
 		
+		 MadProduct productCreate = this.madProductRepo.save(madProductToCreate);
+		 
+		 if (imageBase != null) {
+			 this.sendToImageService(productCreate, imageBase);
+		 }
 	
-		return this.madProductRepo.save(madProductToCreate);
+		return productCreate;
+	}
+	
+	private void sendToImageService(MadProduct productCreate, String imageBase) {
+		 ImageToCreate imageToCreate = new ImageToCreate();
+		 
+		 imageToCreate.imageBase = imageBase;
+		 imageToCreate.codProduct = productCreate.getCodProduct();
+		 imageToCreate.idProduct = productCreate.getId();
+		 
+		 this.imageService.create(imageToCreate);
 	}
 
 	@Override
@@ -81,7 +105,18 @@ public class MadProductServiceImpl implements IMadProductService {
 
 	@Override
 	public MadProduct findOne(int id) {
-		return this.madProductRepo.findById(id).orElse(null);
+		
+		MadProduct madFinded = this.madProductRepo.findById(id).orElse(null);
+		
+		if (madFinded != null) {
+			ImageToResponse imageBaseFinded = this.imageService.getOne(madFinded.getId(), madFinded.getCodProduct());
+			if (imageBaseFinded != null) {
+				madFinded.setPhoto(imageBaseFinded.getImageBase());
+
+			}
+		}
+		
+		return madFinded;
 	}
 
 }
