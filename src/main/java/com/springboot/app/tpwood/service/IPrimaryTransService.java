@@ -7,7 +7,7 @@ import com.springboot.app.tpwood.entity.PrimaryTrans;
 
 
 public interface IPrimaryTransService {
-	public PrimaryTrans insert(PrimaryTrans primaryTrans);
+	public PrimaryTrans insert(PrimaryTrans primaryTrans) throws Exception;
 
 	public PrimaryTrans edit(PrimaryTrans primaryTrans);
 

@@ -15,8 +15,14 @@ public class SecondaryTransServiceImpl implements ISecondaryTransService {
 	private ISecondaryTransRepository secondaryTransRepo;
 
 	@Override
-	public SecondaryTrans insert(SecondaryTrans secondaryTrans) {
-		return secondaryTransRepo.save(secondaryTrans);
+	public SecondaryTrans insert(SecondaryTrans secondaryTrans) throws Exception {
+		SecondaryTrans duplicateCode = this.secondaryTransRepo.findByCodTransSec(secondaryTrans.getCodTransSec());
+		
+		if (duplicateCode != null) {
+			throw new Exception("Duplicate");
+		}
+
+		return this.secondaryTransRepo.save(secondaryTrans);
 	}
 
 	@Override

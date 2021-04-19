@@ -48,7 +48,7 @@ public class SecondaryTransController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping
-	public ResponseEntity<SecondaryTrans> create(@RequestBody SecondaryTrans secondaryTrans) {
+	public ResponseEntity<SecondaryTrans> create(@RequestBody SecondaryTrans secondaryTrans) throws Exception {
 		SecondaryTrans secondaryTransCreated = this.secondaryService.insert(secondaryTrans);
 		return ResponseEntity.status(HttpStatus.OK).body(secondaryTransCreated);
 	}

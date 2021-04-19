@@ -7,5 +7,7 @@ import com.springboot.app.tpwood.entity.SecondaryTrans;
 
 @Repository
 public interface ISecondaryTransRepository extends JpaRepository<SecondaryTrans, Integer> {
+	
+	public SecondaryTrans findByCodTransSec(String codTransSec);
 
 }

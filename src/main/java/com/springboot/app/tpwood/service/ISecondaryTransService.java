@@ -7,7 +7,7 @@ import com.springboot.app.tpwood.entity.SecondaryTrans;
 
 public interface ISecondaryTransService {
 
-	public SecondaryTrans insert(SecondaryTrans secondaryTrans);
+	public SecondaryTrans insert(SecondaryTrans secondaryTrans) throws Exception;
 
 	public SecondaryTrans edit(SecondaryTrans secondaryTrans);
 

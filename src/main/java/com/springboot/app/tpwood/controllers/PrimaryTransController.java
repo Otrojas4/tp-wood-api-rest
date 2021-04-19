@@ -48,7 +48,7 @@ public class PrimaryTransController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping
-	public ResponseEntity<PrimaryTrans> create(@RequestBody PrimaryTrans primaryTrans) {
+	public ResponseEntity<PrimaryTrans> create(@RequestBody PrimaryTrans primaryTrans) throws Exception {
 		PrimaryTrans primaryTransCreated = this.primaryTransService.insert(primaryTrans);
 		return ResponseEntity.status(HttpStatus.OK).body(primaryTransCreated);
 	}

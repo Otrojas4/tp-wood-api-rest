@@ -15,7 +15,15 @@ public class PrimaryTransServiceImpl implements IPrimaryTransService {
 	private IPrimaryTransRepository primaryTransRepo;
 	
 	@Override
-	public PrimaryTrans insert(PrimaryTrans primaryTrans) {
+	public PrimaryTrans insert(PrimaryTrans primaryTrans) throws Exception {
+		
+		
+		PrimaryTrans duplicateCode = this.primaryTransRepo.findByCodTransPri(primaryTrans.getCodTransPri());
+		
+		if (duplicateCode != null) {
+			throw new Exception("Duplicate");
+		}
+
 		return this.primaryTransRepo.save(primaryTrans);
 	}
 

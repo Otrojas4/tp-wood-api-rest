@@ -7,5 +7,5 @@ import com.springboot.app.tpwood.entity.PrimaryTrans;
 
 @Repository
 public interface IPrimaryTransRepository extends JpaRepository<PrimaryTrans, Integer> {
-
+	public PrimaryTrans findByCodTransPri(String codTransPri);
 }
