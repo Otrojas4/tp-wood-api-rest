@@ -31,7 +31,7 @@ public class PrimaryTrans implements Serializable {
 
 	@NotEmpty(message = "No puede estar vacío")
 	@NotBlank(message = "No puede estar en blanco")
-	@Column(name = "CodTransPri", length = 60, nullable = false)
+	@Column(name = "CodTransPri", length = 60, nullable = false, unique=true)
 	private String codTransPri;
 	
 	@NotEmpty(message = "No puede estar vacío")

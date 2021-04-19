@@ -8,12 +8,13 @@ import com.springboot.app.tpwood.entity.User;
 
 public interface IUserService {
 
-	public User create(User user);
+	public User create(User user) throws Exception;
 	
 	public User findByName(String userName);
 	
 	public LoginDtoResponse login(UserLoginDto userLoginDto);
 	
 	public List<User> listUsers();
-		
+
+	public boolean delete(int id);
 }

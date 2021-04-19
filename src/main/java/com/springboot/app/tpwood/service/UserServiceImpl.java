@@ -24,7 +24,14 @@ public class UserServiceImpl implements IUserService {
 	private IUserRepository userRepo;
 
 	@Override
-	public User create(User user) {
+	public User create(User user) throws Exception{
+		
+		User userInDb = this.userRepo.findByName(user.getName());
+		
+		if (userInDb != null) {
+			throw new Exception("Duplicate");
+		}
+		
 		return userRepo.save(user);
 	}
 
@@ -90,6 +97,16 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public List<User> listUsers() {
 		return this.userRepo.findAll();
+	}
+
+	@Override
+	public boolean delete(int id) {
+		try {
+			this.userRepo.deleteById(id);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 }

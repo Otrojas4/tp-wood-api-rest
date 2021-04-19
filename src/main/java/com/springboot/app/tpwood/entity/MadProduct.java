@@ -34,7 +34,7 @@ public class MadProduct implements Serializable {
 	
 	@NotEmpty(message = "No puede estar vacío")
 	@NotBlank(message = "No puede estar en blanco")
-	@Column(name = "codProducto", length = 60, nullable = false)
+	@Column(name = "codProducto", length = 60, nullable = false, unique=true)
 	private String codProduct;
 	
 	@NotEmpty(message = "No puede estar vacío")
