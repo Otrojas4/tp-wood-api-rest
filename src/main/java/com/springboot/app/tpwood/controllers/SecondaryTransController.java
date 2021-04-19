@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.app.tpwood.entity.PrimaryTrans;
 import com.springboot.app.tpwood.entity.SecondaryTrans;
 import com.springboot.app.tpwood.service.ISecondaryTransService;
 
@@ -60,5 +61,20 @@ public class SecondaryTransController {
 		return ResponseEntity.status(HttpStatus.OK).body(secondaryTransUpdated);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PostMapping(value="/list-json")
+	public ResponseEntity<PrimaryTrans> createInSerie(@RequestBody List<SecondaryTrans> secondaryTransList) throws Exception {
+		
+		secondaryTransList.stream().forEach(s -> {
+			try {
+				this.secondaryService.insert(s);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+
+		
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
 
 }

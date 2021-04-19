@@ -54,6 +54,22 @@ public class PrimaryTransController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PostMapping(value="/list-json")
+	public ResponseEntity<PrimaryTrans> createInSerie(@RequestBody List<PrimaryTrans> primaryTransList) throws Exception {
+		
+		primaryTransList.stream().forEach(p -> {
+			try {
+				this.primaryTransService.insert(p);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+
+		
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping
 	public ResponseEntity<PrimaryTrans> update(@RequestBody PrimaryTrans primaryTrans) {
 		PrimaryTrans primaryTransUpdated = this.primaryTransService.edit(primaryTrans);
