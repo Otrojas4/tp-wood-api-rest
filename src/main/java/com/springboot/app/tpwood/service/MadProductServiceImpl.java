@@ -36,9 +36,15 @@ public class MadProductServiceImpl implements IMadProductService {
 	private ModelMapper modelMapper;
 	
 	@Override
-	public MadProduct insert(MapCreateDto madProductDto) {
+	public MadProduct insert(MapCreateDto madProductDto) throws Exception {
 		 //por si cree que idSec y idPri son el id de ellos.
 		 modelMapper.getConfiguration().setAmbiguityIgnored(true);
+		 
+		 MadProduct duplicateCode = this.madProductRepo.findByCodProduct(madProductDto.getCodProduct());
+			
+			if (duplicateCode != null) {
+				throw new Exception("Duplicate");
+		}
 		 
 		 String imageBase = madProductDto.getImageBase();
 

@@ -49,7 +49,7 @@ public class MadProductController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping
-	public ResponseEntity<MadProduct> create(@RequestBody MapCreateDto mapCreateDto) {
+	public ResponseEntity<MadProduct> create(@RequestBody MapCreateDto mapCreateDto) throws Exception {
 		MadProduct madProductCreated = this.madProductService.insert(mapCreateDto);
 		return ResponseEntity.status(HttpStatus.OK).body(madProductCreated);
 	}

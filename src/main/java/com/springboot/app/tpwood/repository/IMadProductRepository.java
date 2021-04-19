@@ -8,4 +8,5 @@ import com.springboot.app.tpwood.entity.MadProduct;
 @Repository
 public interface IMadProductRepository extends JpaRepository<MadProduct, Integer> {
 
+	public MadProduct findByCodProduct(String codProduct);
 }

@@ -7,7 +7,7 @@ import com.springboot.app.tpwood.entity.MadProduct;
 
 public interface IMadProductService {
 
-	public MadProduct insert(MapCreateDto madProduct);
+	public MadProduct insert(MapCreateDto madProduct) throws Exception;
 
 	public MadProduct edit(MadProduct madProduct);
 
