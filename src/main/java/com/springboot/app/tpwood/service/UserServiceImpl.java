@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -17,6 +18,7 @@ import com.springboot.app.tpwood.repository.IUserRepository;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -96,7 +98,7 @@ public class UserServiceImpl implements IUserService {
 								.map(GrantedAuthority::getAuthority)
 								.collect(Collectors.toList()))
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 6000000))
+				.setExpiration(DateUtils.addMonths(new Date(), 4))//4 meses de duración, por propositos de testing
 				.signWith(SignatureAlgorithm.HS512,
 						secretKey.getBytes()).compact();
 
