@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
+import com.springboot.app.tpwood.dtos.ChangeUserStatusDTO;
 import com.springboot.app.tpwood.dtos.LoginDtoResponse;
 import com.springboot.app.tpwood.dtos.UserLoginDto;
 import com.springboot.app.tpwood.entity.User;
@@ -36,11 +37,19 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public LoginDtoResponse login(UserLoginDto userLoginDto) {
+	public LoginDtoResponse login(UserLoginDto userLoginDto) throws Exception {
 		
 		String username = userLoginDto.getName();
 		
 		User userInDb = this.userRepo.findByName(username);
+		
+		if (userInDb == null) {
+			throw new Exception("Not Exists");
+		}
+		
+		if (userInDb.getStatus().equals("0")) {
+			throw new Exception("Disable");
+		}
 		
 		if (userLoginDto.getPassword().equals(userInDb.getPassword())) {
 			// generar token
@@ -107,6 +116,16 @@ public class UserServiceImpl implements IUserService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	@Override
+	public User editStatus(ChangeUserStatusDTO changeuserStatusDTO) throws Exception {
+		
+		User userToUpdate = this.userRepo.findById(changeuserStatusDTO.getId()).orElse(null);
+		
+		userToUpdate.setStatus(changeuserStatusDTO.getStatus());
+		
+		return this.userRepo.save(userToUpdate);
 	}
 	
 }
