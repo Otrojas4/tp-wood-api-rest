@@ -9,4 +9,6 @@ public interface IIImageService {
 	
 	public ImageToResponse getOne(int idProduct, String codProduct);
 	
+	public ImageToResponse edit(ImageToCreate imageToCreate);
+	
 }

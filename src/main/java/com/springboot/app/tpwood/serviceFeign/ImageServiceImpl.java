@@ -24,5 +24,10 @@ public class ImageServiceImpl implements IIImageService {
 		return this.productClientRest.create(imageToCreate).getBody();
 	}
 
+	@Override
+	public ImageToResponse edit(ImageToCreate imageToCreate) {
+		return this.productClientRest.edit(imageToCreate).getBody();
+	}
+
 	
 }

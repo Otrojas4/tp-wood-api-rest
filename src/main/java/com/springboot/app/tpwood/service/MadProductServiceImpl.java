@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.springboot.app.tpwood.client.models.ImageToCreate;
 import com.springboot.app.tpwood.client.models.ImageToResponse;
+import com.springboot.app.tpwood.dtos.EditProductDTO;
 import com.springboot.app.tpwood.dtos.MapCreateDto;
 import com.springboot.app.tpwood.entity.MadProduct;
 import com.springboot.app.tpwood.entity.PrimaryTrans;
@@ -81,17 +82,35 @@ public class MadProductServiceImpl implements IMadProductService {
 		 
 		 this.imageService.create(imageToCreate);
 	}
+	
+	private void sendToImageServiceToEdit(MadProduct madProductToUpdate, String imageBase) {
+		 ImageToCreate imageToCreate = new ImageToCreate();
+		 
+		 imageToCreate.imageBase = imageBase;
+		 imageToCreate.codProduct = madProductToUpdate.getCodProduct();
+		 imageToCreate.idProduct = madProductToUpdate.getId();
+		 
+		 this.imageService.edit(imageToCreate);
+	}
 
 	@Override
-	public MadProduct edit(MadProduct madProduct) {
+	public MadProduct edit(EditProductDTO ediCreateDto) {
 		
-		MadProduct secondaryTransFinded = madProductRepo.findById(madProduct.getId()).orElse(null);
+		String imageBase = ediCreateDto.getImageBase();
+		
+		MadProduct secondaryTransFinded = madProductRepo.findById(ediCreateDto.getId()).orElse(null);
 		
 		if (secondaryTransFinded == null) {
 			return null;
 		}
 		
-		return madProductRepo.save(madProduct);
+		MadProduct madProductToUpdate = this.modelMapper.map(ediCreateDto, MadProduct.class);
+		
+		if(imageBase != null) {
+			this.sendToImageServiceToEdit(madProductToUpdate, imageBase);
+		}
+		
+		return madProductRepo.save(madProductToUpdate);
 	}
 
 	@Override

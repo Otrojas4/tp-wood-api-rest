@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.app.tpwood.dtos.EditProductDTO;
 import com.springboot.app.tpwood.dtos.MapCreateDto;
 import com.springboot.app.tpwood.entity.MadProduct;
 import com.springboot.app.tpwood.service.IMadProductService;
@@ -56,8 +57,8 @@ public class MadProductController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping
-	public ResponseEntity<MadProduct> update(@RequestBody MadProduct mapCreateDto) {
-		MadProduct madProductUpdated = this.madProductService.edit(mapCreateDto);
+	public ResponseEntity<MadProduct> update(@RequestBody EditProductDTO ediCreateDto) {
+		MadProduct madProductUpdated = this.madProductService.edit(ediCreateDto);
 		return ResponseEntity.status(HttpStatus.OK).body(madProductUpdated);
 	}
 	
