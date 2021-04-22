@@ -26,14 +26,14 @@ public class MadProductController {
 	@Autowired
 	private IMadProductService madProductService;
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+	//@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping
 	public ResponseEntity<List<MadProduct>> findAll() {
 		List<MadProduct> madProducts = this.madProductService.list();
 		return ResponseEntity.status(HttpStatus.OK).body(madProducts);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+	//@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<MadProduct> findOneById(@PathVariable int id) {
 		MadProduct madProduct = this.madProductService.findOne(id);

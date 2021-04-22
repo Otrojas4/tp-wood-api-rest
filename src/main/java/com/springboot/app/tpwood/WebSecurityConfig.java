@@ -29,6 +29,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 			.antMatchers(HttpMethod.POST, "/user/login").permitAll()
 			.antMatchers(HttpMethod.POST, "/user/create").permitAll()
+			.antMatchers(HttpMethod.GET, "/mad-product/**").permitAll()
 			.anyRequest().authenticated();
 	}
 	
