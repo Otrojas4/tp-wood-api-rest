@@ -30,11 +30,20 @@ public class UserController {
 	
 
 	@PostMapping(value = "/login")
-	public ResponseEntity<LoginDtoResponse> login(@RequestBody UserLoginDto userLogin) throws Exception {
+	public ResponseEntity<LoginDtoResponse> login(@RequestBody UserLoginDto userLogin) {
 		
-		LoginDtoResponse loginDto = this.userService.login(userLogin);		
-		
-		return ResponseEntity.status(HttpStatus.OK).body(loginDto);
+		LoginDtoResponse loginDto;
+		try {
+			loginDto = this.userService.login(userLogin);
+			
+			if (loginDto == null) {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+			}
+			
+			return ResponseEntity.status(HttpStatus.OK).body(loginDto);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
 	}
 	
 	@PostMapping(value = "/create")
