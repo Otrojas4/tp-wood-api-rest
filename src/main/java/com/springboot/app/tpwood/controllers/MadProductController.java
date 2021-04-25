@@ -50,9 +50,13 @@ public class MadProductController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping
-	public ResponseEntity<MadProduct> create(@RequestBody MapCreateDto mapCreateDto) throws Exception {
-		MadProduct madProductCreated = this.madProductService.insert(mapCreateDto);
-		return ResponseEntity.status(HttpStatus.OK).body(madProductCreated);
+	public ResponseEntity<?> create(@RequestBody MapCreateDto mapCreateDto) {
+		try {
+			MadProduct madProductCreated = this.madProductService.insert(mapCreateDto);
+			return ResponseEntity.status(HttpStatus.OK).body(madProductCreated);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
+		}
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
